@@ -6,6 +6,7 @@ import re
 import sys
 from typing import List, Optional
 
+from .completion import get_completion
 from .formatter import DEFAULT_TIME_FORMAT, dedupe, filter_entries, merge_entries, to_human, to_json
 from .parser import parse
 
@@ -55,6 +56,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="treat --filter's PATTERN as a regular expression instead of a "
         "plain substring",
     )
+    parser.add_argument(
+        "--completion",
+        choices=["bash", "zsh", "fish"],
+        help="print a shell completion script for the given shell and exit",
+    )
     return parser
 
 
@@ -68,6 +74,9 @@ def read_lines(path: Optional[str]) -> List[str]:
 def main(argv: Optional[List[str]] = None) -> int:
     arg_parser = build_parser()
     args = arg_parser.parse_args(argv)
+    if args.completion:
+        print(get_completion(args.completion), end="")
+        return 0
     if args.regex and not args.filter:
         arg_parser.error("--regex has no effect without --filter")
     if not args.histfile:

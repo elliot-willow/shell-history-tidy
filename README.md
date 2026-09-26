@@ -98,6 +98,17 @@ Entries with no timestamp (plain bash history without `HISTTIMEFORMAT`) can't
 be placed on that timeline, so they're kept in their original order at the
 end of the merged output.
 
+## Shell completion
+
+`--completion {bash,zsh,fish}` prints a completion script for the given
+shell to stdout and exits, so there's nothing to install beyond sourcing it:
+
+```
+$ histfmt --completion bash >> ~/.bash_completion
+$ histfmt --completion zsh > "${fpath[1]}/_histfmt"
+$ histfmt --completion fish > ~/.config/fish/completions/histfmt.fish
+```
+
 ## Why
 
 I wanted a single normalised view across the three shells I actually use
@@ -118,6 +129,6 @@ pip install -e .
 
 Early. Bash, zsh extended, and fish history parsing all work, `--time-format`
 covers `HISTTIMEFORMAT`-style custom formats, `--filter` handles
-substring/regex search, and multiple history files can be merged into one
-sorted timeline. Shell completion and a PyPI release are still on the
-roadmap.
+substring/regex search, multiple history files can be merged into one
+sorted timeline, and `--completion` covers bash/zsh/fish. A PyPI release is
+still on the roadmap.
